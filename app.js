@@ -57,7 +57,7 @@ app.use('/api', express.urlencoded({ extended: false }), mypageRouter);
 app.use('/api', express.urlencoded({ extended: false }), chatsRouter);
 // app.use('/api', express.urlencoded({ extended: false }), evlaueRouter);
 app.get('/', (req, res) => {
-    res.send('hi');
+    res.send('hi????');
 });
 app.get(
     '/.well-known/pki-validation/6448FFC6223A036C982B8E3F95226766.txt',
@@ -78,3 +78,4 @@ app.listen(httpPort, () => {
 server.listen(httpsPort, () => {
     console.log('https서버가 켜졌어요!');
 });
+

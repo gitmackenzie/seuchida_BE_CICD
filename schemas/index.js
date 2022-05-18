@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const connect = () => {
-    mongoose
+const connect = () => { 
+    await mongoose
         .connect('mongodb://localhost:27017/scd', {
             useNewUrlParser: true,
             useUnifiedTopology: true,
