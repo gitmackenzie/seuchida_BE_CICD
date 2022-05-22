@@ -71,5 +71,10 @@ jobs:
 		# 모든 액션 이 완료되고, 화면에 출력 할 내용
     - name: Deployed!
       run: echo App deployed to ELB
+ 
+ #fail 로그 하는 부분
+    - name: Setup tmate session
+      if: ${{ failure() }}
+      uses: mxschmitt/action-tmate@v3
       
   # 초안 참고: https://www.notion.so/Github-action-Nodejs-ELB-8643f007d55540199359ce210ca19288
