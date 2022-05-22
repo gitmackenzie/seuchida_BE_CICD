@@ -1,12 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
 name: CICD
-env:
-  EB_PACKAGE_S3_BUCKET_NAME: "elasticbeanstalk-ap-northeast-2-047988302194"
-  EB_APPLICATION_NAME: "Test-01"
-  EB_ENVIRONMENT_NAME: "Test01-env-1"
-  DEPLOY_PACKAGE_NAME: "seuchida_BE_CICD.zip"
-  AWS_REGION_NAME: "ap-northeast-2"
 
 on:
   push:
@@ -32,37 +26,16 @@ jobs:
 
     - name: Building application
       run: npm run build
-      
-    - name: Install MongoDB
-      run: |
-        wget -qO - https://www.mongodb.org/static/pgp/server-3.6.asc | sudo apt-key add -
-        echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.6.list
-        sudo apt-get update
-        sudo apt-get install -y mongodb-org
-        sudo apt-get install -y mongodb-org=3.6.14 mongodb-org-server=3.6.14 mongodb-org-shell=3.6.14 mongodb-org-mongos=3.6.14 mongodb-org-tools=3.6.14
-    
-    - name: Start MongoDB
-      run: sudo systemctl start mongod
-    - name: Start Server
-      run: node server/index.js
+
 
     - name: Generate deployment package
-    
-# 패키지를 deploy.zip 으로 압축
-      run: zip -r deploy.zip . -x "**node_modules**" "package-lock.json" ".git**"
-    
-    - name: Get timestamp
-      uses: gerred/actions/current-time@master
-      id: current-time
-    
-    - name: Run string replace
-      uses: frabert/replace-string-action@master
-      id: format-time
-      with:
-        pattern: '[:\.]+'
-        string: "$"
-        replace-with: "-"
-        flags: "g"
+      run: |
+        mkdir -p deploy
+        cp build/libs/*.jar deploy/application.jar
+        cp Procfile deploy/Procfile
+        cp -r .ebextensions deploy/.ebextensions
+        cp -r .platform deploy/.platform
+        cd deploy && zip -r deploy.zip .
         
     - name: Beanstalk Deploy for app
       uses: einaregilsson/beanstalk-deploy@v9
@@ -72,16 +45,8 @@ jobs:
         application_name: Test-01
         environment_name: Test01-env-1
         region: ap-northeast-2
-        deployment_package: seuchida_BE_CICD.zip
+        deployment_package: deploy/seuchida_BE_CICD.zip
         version_label: "my-app-${{ steps.format-time.outputs.replaced }}"
 
-# 모든 액션 이 완료되고, 화면에 출력 할 내용
     - name: Deployed!
       run: echo App deployed to ELB
- 
- #fail 로그 하는 부분
-    - name: Setup tmate session
-      if: ${{ failure() }}
-      uses: mxschmitt/action-tmate@v3
-      
-  # 초안 참고: https://www.notion.so/Github-action-Nodejs-ELB-8643f007d55540199359ce210ca19288
