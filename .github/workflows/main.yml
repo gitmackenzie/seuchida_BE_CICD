@@ -5,7 +5,7 @@ env:
   EB_PACKAGE_S3_BUCKET_NAME: "elasticbeanstalk-ap-northeast-2-047988302194"
   EB_APPLICATION_NAME: "Test-01"
   EB_ENVIRONMENT_NAME: "Test01-env-1"
-  DEPLOY_PACKAGE_NAME: "deploy.zip"
+  DEPLOY_PACKAGE_NAME: "seuchida_BE_CICD.zip"
   AWS_REGION_NAME: "ap-northeast-2"
 
 on:
@@ -72,7 +72,7 @@ jobs:
         application_name: Test-01
         environment_name: Test01-env-1
         region: ap-northeast-2
-        deployment_package: deploy.zip
+        deployment_package: seuchida_BE_CICD.zip
         version_label: "my-app-${{ steps.format-time.outputs.replaced }}"
 
 # 모든 액션 이 완료되고, 화면에 출력 할 내용
