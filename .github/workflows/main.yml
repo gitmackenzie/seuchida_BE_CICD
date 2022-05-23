@@ -30,8 +30,8 @@ jobs:
       with:
         aws_access_key: ${{secrets.AWS_ACCESS_KEY}}
         aws_secret_key: ${{secrets.AWS_SECRET_KEY}}
-        application_name: Test-01
-        environment_name: Test01-env-1
+        application_name: CICD
+        environment_name: Test01-env-2
         region: ap-northeast-2
         deployment_package: seuchida_BE_CICD.zip
         version_label: "my-app-${{ steps.format-time.outputs.replaced }}"
