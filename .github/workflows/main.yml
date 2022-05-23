@@ -23,13 +23,7 @@ jobs:
     - run: npm run build --if-present
 
     - name: Generate deployment package
-      run: |
-        mkdir -p deploy
-        cp build/libs/*.jar deploy/application.jar
-        cp Procfile deploy/Procfile
-        cp -r .ebextensions deploy/.ebextensions
-        cp -r .platform deploy/.platform
-        cd deploy && zip -r seuchida_BE_CICD.zip .
+      run: zip -r deploy.zip .
         
     - name: Beanstalk Deploy for app
       uses: einaregilsson/beanstalk-deploy@v9
