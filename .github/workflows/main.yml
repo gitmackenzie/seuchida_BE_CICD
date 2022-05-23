@@ -23,7 +23,7 @@ jobs:
     - run: npm run build --if-present
 
     - name: Generate deployment package
-      run: zip -r deploy.zip .
+      run: zip -r seuchida_BE_CICD.zip .
         
     - name: Beanstalk Deploy for app
       uses: einaregilsson/beanstalk-deploy@v9
