@@ -33,7 +33,7 @@ jobs:
         application_name: Test-01
         environment_name: Test01-env-1
         region: ap-northeast-2
-        deployment_package: deploy/seuchida_BE_CICD.zip
+        deployment_package: seuchida_BE_CICD.zip
         version_label: "my-app-${{ steps.format-time.outputs.replaced }}"
 
     - name: Deployed!
