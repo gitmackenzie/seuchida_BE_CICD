@@ -6,6 +6,7 @@ on:
   push:
     branches:
     - master
+    
   pull_request:
     branches:
       - master
@@ -15,17 +16,17 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-    - name: Deploy
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_IP }}
-        username: ${{ secrets.SSH_ID }}
-        KEY: ${{ secrets.SSH_KEY }}
-        port: ${{ secrets.SSH_PORT }}
-        script: |
-          cd /home/ubuntu/seuchida_BE
-          git config --global --add safe.directory /home/ubuntu/seuchida_BE
-          sudo git pull
-          sudo npm update
-          sudo npm install
-          sudo pm2 reload all
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_IP }}
+          username: ${{ secrets.SSH_ID }}
+          KEY: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd /home/ubuntu/seuchida_BE
+            git config --global --add safe.directory /home/ubuntu/seuchida_BE
+            sudo git pull
+            sudo npm update
+            sudo npm install
+            sudo pm2 reload all
